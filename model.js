@@ -15,7 +15,6 @@ mongoose
   });
 
 //Step-1
-
 //As Department is refered by other tables but is doesn't have any foreign key
 const departmentSchema = new mongoose.Schema({
   _id: Number,
@@ -46,7 +45,6 @@ const showDepartment = async function () {
 // });
 
 //Step-2
-
 //Employee Table is Reffered by other Tables but has only one Forrign Key
 const employeeSchema = new mongoose.Schema({
   _id: Number,
@@ -172,8 +170,8 @@ const insertEmployee = async function () {
 
 const showEmployee = async function () {
   const data = await Employee.find({})
-    .populate("department")
     .populate("child")
+    .populate("department")
     .populate("worksOn.project_id");
   console.log(data);
 };
@@ -281,20 +279,20 @@ const insertProject = async function () {
   console.log(data);
 };
 
-insertProject().then(() => {
-  mongoose.connection.close();
-});
+// insertProject().then(() => {
+//   mongoose.connection.close();
+// });
 
 const showProject = async function () {
   const data = await Project.find({})
     .populate("department")
     .populate("workedBy.employee_id");
-  console.log(data[2].workedBy);
+  console.log(data[0].workedBy);
 };
 
-// showProject().then(() => {
-//   mongoose.connection.close();
-// });
+showProject().then(() => {
+  mongoose.connection.close();
+});
 
 //Step-3(i): will creat a child table and will do one way embedding in employee table
 const childSchema = new mongoose.Schema({
@@ -337,4 +335,17 @@ const showChild = async function () {
 
 // showChild().then(() => {
 //   mongoose.connection.close();
+// });
+
+// const worksONSchema = mongoose.Schema({
+//   _id: Number,
+//   emp_id: {
+//     type: Number,
+//     ref: "Employee",
+//   },
+//   pro_id: {
+//     type: Number,
+//     ref: "Project",
+//   },
+//   hours: String,
 // });
